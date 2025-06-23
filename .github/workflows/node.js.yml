@@ -17,7 +17,7 @@ jobs:
     # Strategy allows us to test across multiple Node.js versions
     strategy:
       matrix:
-        node-version: [14.x, 16.x]  # Define versions of Node.js to test against
+        node-version: [18.x]  # Define versions of Node.js to test against. Only use 18.x to match Express and Jest requirements
 
     steps:
     - name: Checkout repository
