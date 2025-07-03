@@ -1,14 +1,29 @@
 #!/bin/bash
 
-# Stop and remove old container
-docker stop ci-cd-node-app || true
-docker rm ci-cd-node-app || true
+# --------------------------------------------
+# Production Deploy Script (Docker Compose)
+# Author: Oladeji
+# --------------------------------------------
 
-# Pull latest code
-cd ~/ci-cd-node-app
+set -e  # Exit on error
+
+APP_NAME="ci-cd-node-app"
+APP_DIR="/home/ubuntu/$APP_NAME"
+
+echo "íº€ Starting deployment using docker-compose..."
+
+# Navigate to app directory
+cd "$APP_DIR"
+
+echo "í³¦ Pulling latest code..."
+git reset --hard
 git pull origin main
 
-# Rebuild and restart container
-docker build -t ci-cd-node-app .
-docker run -d --name ci-cd-node-app -p 80:3000 ci-cd-node-app
+echo "í·¹ Stopping and removing old containers..."
+docker-compose down || true
+
+echo "í´§ Building and starting containers..."
+docker-compose up -d --build
+
+echo "âœ… Deployment complete! App is live on port 80."
 
